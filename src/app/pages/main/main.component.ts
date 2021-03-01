@@ -1,33 +1,7 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
-import { AFBWebSocketService } from 'afbwebsocket';
-
-export interface IBoardInfo {
-  general: {
-    serial: string;
-    mac: string;
-  },
-  disk_usage: [
-    {
-      partition: string;
-      name: string;
-      usage: string
-    }
-  ],
-  redpesk: {
-    distribution: string;
-    version_id: string;
-  },
-  recovery: {
-    distribution: string;
-    version_id: string;
-  },
-  boot_flags: {
-    counter: string;
-    limit: string;
-    upgrade_available: string;
-  }
-}
+import { Component, Inject, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AfbWsService } from '../services/afb-ws.service';
 
 @Component({
   selector: 'afb-main',
@@ -37,19 +11,17 @@ export interface IBoardInfo {
 })
 export class MainComponent implements OnInit {
 
-
+  user$: Observable<string>;
+  status$: Observable<any>;
 
   constructor(
-    private afbService: AFBWebSocketService,
-    private render: Renderer2,
+    private afbWS: AfbWsService,
     @Inject(DOCUMENT) private document: Document,
   ) {
-    // afbService.Init('api', 'HELLO');
+    this.user$ = this.afbWS.getUser();
+    this.status$ = this.afbWS.get().Status$;
   }
 
-  ngOnInit(): void {
-
-  }
-
+  ngOnInit(): void {}
 
 }

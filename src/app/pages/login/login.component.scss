@@ -1,0 +1,48 @@
+.unicode {
+  font-size: 70px;
+}
+
+.logo {
+  img {
+    max-width: 4em;
+  }
+}
+
+.clickable {
+  cursor: pointer;
+
+  p {
+    max-width: 21vw;
+    margin-left: 1vw;
+  }
+}
+
+.oidc-list {
+  width: 70%;
+  margin: auto;
+}
+
+.profiles {
+  label {
+    margin-right: 1vw;
+    margin-left: 0.5vw;
+    cursor: pointer;
+  }
+}
+
+.hide {
+  display: none;
+}
+
+.selected {
+  border: 1px solid #0000006e;
+  background-color: #dcdcdc4f;
+}
+
+.invalid-feedback {
+  position: absolute;
+}
+.required {
+  margin-right: 5px;
+  color: #e05a7f;
+}
