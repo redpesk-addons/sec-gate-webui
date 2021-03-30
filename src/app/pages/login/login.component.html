@@ -18,9 +18,9 @@
         <div class="ml-5 mt-2 profiles" *ngIf="uid.selected">
           <ng-container *ngFor="let profile of uid.profils; let i = index">
             <input type="radio" name="{{uid.uid}}" id="{{uid.uid+profile.loa}}" value="{{i}}"
-              [(ngModel)]="default" required>
+              [(ngModel)]="default" (click)="setSelected(i, uid.profils)" required>
             <label for="{{uid.uid+profile.loa}}">{{profile.uid}}</label>
-            <input type="hidden" name="loginUrl" [(ngModel)]="uid['login-url'] + '?scope=' + profile.scope">
+            <input *ngIf="profile.selected" type="hidden" name="loginUrl" [(ngModel)]="uid['login-url'] + '?scope=' + profile.scope">
           </ng-container>
         </div>
       </div>

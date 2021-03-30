@@ -48,6 +48,10 @@ export class LoginComponent implements OnInit {
       map((list) => {
         list.idps.map((account: any, index: number) => {
           account.selected = index === 0 ? true : false;
+          account.profils.map((profile: any, i: number) => {
+            profile.selected = i === 0 ? true : false;
+            return profile;
+          });
           return account;
         });
 
@@ -218,6 +222,16 @@ export class LoginComponent implements OnInit {
 
     return false;
 
+  }
+
+  setSelected(i: number, profiles: any[]) {
+    profiles.forEach((element: any, index: number) => {
+      if (i === index) {
+        element.selected = true;
+      } else {
+        element.selected = false;
+      }
+    });
   }
 
 }
