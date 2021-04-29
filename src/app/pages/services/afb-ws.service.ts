@@ -45,35 +45,18 @@ export class AfbWsService {
   idpList(): Observable<any> {
     console.log('idp-list', 'sgate/idp-list');
     return this.afbService.Send('sgate/idp-list', '').pipe(
-      map(d => {
+      map((d: any) => {
         console.log('idp-list resp', d);
-        const resp: any = [];
-        if (d.response.stdout) {
-          d.response.stdout.forEach((res: any) => {
-            resp.push(res.trim());
-          });
-          return JSON.parse(resp.join(''));
-        }
-
         return d?.response;
       }));
   }
 
   getSession(): Observable<any> {
-    console.log('get-session', 'sgate/get-session');
-    return this.afbService.Send('sgate/get-session', '').pipe(
+    console.log('get-session', 'sgate/session-get');
+    return this.afbService.Send('sgate/session-get', '').pipe(
       map((d: any) => {
         console.log('get-session', d);
-
-        const resp: any = [];
-        if (d.response.stdout) {
-          d.response.stdout.forEach((res: any) => {
-            resp.push(res);
-          });
-          return JSON.parse(resp.join(''));
-        }
         return d?.response;
-
       }));
   }
 
@@ -94,14 +77,7 @@ export class AfbWsService {
     return this.afbService.Send('sgate/pam-login', args).pipe(
       map((d: any) => {
         console.log('pam-login resp', d);
-        if (d?.request?.status === 'success') {
-          if (d?.response === 'FEDID_USER_REFUSED') {
-            return 'login refused';
-          }
-          return 'success';
-        } else {
-          return 'login/passwd don\'t match';
-        }
+        return d;
       }));
   }
 
@@ -112,29 +88,22 @@ export class AfbWsService {
     return this.afbService.Send('sgate/usr-register', args).pipe(
       map((d: any) => {
         console.log('usr-register', d);
-        const resp: any = [];
-        if (d.response.stdout) {
-          d.response.stdout.forEach((res: any) => {
-            resp.push(res);
-          });
-          return JSON.parse(resp.join(''));
-        }
         return d?.response;
       }));
   }
 
-  newLoginPassword(args: any[]): Observable<any> {
-    console.log('pam-login', 'sgate/pam-login', args);
+  // newLoginPassword(args: any[]): Observable<any> {
+  //   console.log('pam-login', 'sgate/pam-login', args);
 
-    return this.afbService.Send('sgate/pam-login', args).pipe(
-      map((d: any) => {
-        console.log('pam-login', d);
-        if (d.response?.status.exit !== undefined) {
-          return 'success';
-        }
-        return d?.response?.status;
-      }));
-  }
+  //   return this.afbService.Send('sgate/pam-login', args).pipe(
+  //     map((d: any) => {
+  //       console.log('pam-login', d);
+  //       if (d.response?.status.exit !== undefined) {
+  //         return 'success';
+  //       }
+  //       return d?.response?.status;
+  //     }));
+  // }
 
   getUser(): Observable<string> {
     return this.user$;

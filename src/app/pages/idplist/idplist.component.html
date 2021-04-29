@@ -1,0 +1,38 @@
+<h1 class="text-center">Open ID Connect</h1>
+
+<div class="my-3 p-3 bg-white rounded shadow-sm oidc-list border">
+  <!-- login form -->
+  <ng-container *ngIf="(idpList$ | async)">
+    <h5 class="border-bottom border-gray pb-2 mb-0 text-center" *ngIf="list.alias">{{ list?.alias?.uid }} - {{ list?.alias?.info }}</h5>
+    <form #login="ngForm" (ngSubmit)="doLogin(login)">
+      <div #div class="d-flex align-items-center text-muted pt-3 pb-3 clickable" [class.selected]="idp.selected"
+        (click)="changeIdp(idp, $event)" *ngFor="let idp of list.idps; let i = index">
+        <div class="logo">
+          <img [src]="idp.logo" alt="">
+        </div>
+        <p class="pb-3 mb-0  border-bottom border-gray">
+          <strong class="d-block text-gray-dark">{{ idp.uid }}</strong>
+          {{ idp.info }}
+        </p>
+
+        <div class="ml-5 mt-2 profiles" *ngIf="idp.selected">
+          <ng-container *ngFor="let profile of idp.profils; let i = index">
+            <input type="radio" name="{{idp.uid}}" id="{{idp.uid+profile.loa}}" value="{{i}}"
+              [(ngModel)]="default" (click)="setSelectedProfile(i, idp.profils)" required>
+            <label for="{{idp.uid+profile.loa}}">{{profile.uid}}</label>
+            <ng-container *ngIf="profile.selected">
+              <input type="hidden" name="loginUrl_{{i}}"
+              [(ngModel)]="profile.url">
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+      <div class="text-right mt-4">
+        <button class="btn btn-link" (click)="goToSlash()">cancel</button>
+        <button class="btn btn-primary" type="submit" [attr.disabled]="check(login)">Log in</button>
+      </div>
+    </form>
+  </ng-container>
+
+
+</div>
